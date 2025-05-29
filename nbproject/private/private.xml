@@ -3,8 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Tugas%20Kuliah/Semester%204/Pemrograman%20Berorientasi%20Objek/Projek%20UAS/libraryManagementSystem/src/librarymanagementsystem/login.java</file>
-            <file>file:/D:/Tugas%20Kuliah/Semester%204/Pemrograman%20Berorientasi%20Objek/Projek%20UAS/libraryManagementSystem/src/librarymanagementsystem/librarian/dashboard.java</file>
+            <file>file:/C:/Users/cdhex/OneDrive/Documents/NetBeansProjects/libraryManagementSystem/src/librarymanagementsystem/login.java</file>
+            <file>file:/C:/Users/cdhex/OneDrive/Documents/NetBeansProjects/libraryManagementSystem/src/librarymanagementsystem/koneksiDB.java</file>
+            <file>file:/C:/Users/cdhex/OneDrive/Documents/NetBeansProjects/libraryManagementSystem/src/librarymanagementsystem/libraryManagementSystem.java</file>
+            <file>file:/C:/Users/cdhex/OneDrive/Documents/NetBeansProjects/libraryManagementSystem/src/librarymanagementsystem/register.java</file>
+            <file>file:/C:/Users/cdhex/OneDrive/Documents/NetBeansProjects/libraryManagementSystem/src/librarymanagementsystem/admin/dashboard_admin.java</file>
+            <file>file:/C:/Users/cdhex/OneDrive/Documents/NetBeansProjects/libraryManagementSystem/src/librarymanagementsystem/user/dashboard_user.java</file>
+            <file>file:/C:/Users/cdhex/OneDrive/Documents/NetBeansProjects/libraryManagementSystem/src/librarymanagementsystem/librarian/dashboard_petugas.java</file>
         </group>
     </open-files>
 </project-private>

@@ -6,12 +6,23 @@ package librarymanagementsystem;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.JOptionPane;
+import java.sql.*;
+import librarymanagementsystem.admin.dashboard_admin;
+import librarymanagementsystem.user.dashboard_user;
+import librarymanagementsystem.librarian.dashboard_petugas;
+
+
+
 
 /**
  *
  * @author ASUS
  */
 public class login extends javax.swing.JFrame {
+    koneksiDB k = new koneksiDB();
+    
+    String email, password, emailsql, passsql, rolesql;
 
     /**
      * Creates new form login
@@ -40,7 +51,7 @@ public class login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        tfUsername = new javax.swing.JTextField();
+        tfEmail = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         cbShowPass = new javax.swing.JCheckBox();
@@ -70,7 +81,7 @@ public class login extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Username");
+        jLabel4.setText("E-mail");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -92,6 +103,11 @@ public class login extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Log In");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jLabel7.setForeground(new java.awt.Color(153, 153, 153));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -175,7 +191,7 @@ public class login extends javax.swing.JFrame {
                                 .addGap(47, 47, 47)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
-                                    .addComponent(tfUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -199,7 +215,7 @@ public class login extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addGap(1, 1, 1)
-                .addComponent(tfUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
                 .addGap(5, 5, 5)
@@ -232,6 +248,57 @@ public class login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void cek(){
+        password = tfPassword.getText(); 
+        email = tfEmail.getText();
+        
+        if(email.equals("")&&password.equals("")){
+            JOptionPane.showMessageDialog(null,"Isi data login anda", "Info",JOptionPane.ERROR_MESSAGE);
+        }
+        else if(password.equals("")||email.equals("")){
+            JOptionPane.showMessageDialog(null,"Lengkapi datanya", "Info",JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+            try {
+                //login dengan mengambil data ke database
+                k.setDriver();
+                k.query = "select * from users where email = '"+email+"' AND password = '"+password+"'";
+                k.read();
+                
+                while(k.rs.next()) {
+                    emailsql = k.rs.getString("email");
+                    passsql = k.rs.getString("password");
+                    rolesql = k.rs.getString("role");
+
+                    
+                    if ((emailsql != null) && (passsql != null)) {
+                        if (rolesql.equals("admin")) {
+                            dashboard_admin da = new dashboard_admin();
+                            da.setVisible(true);
+
+                            this.setVisible(false);
+                        } else if (rolesql.equals("user")) {
+                            dashboard_user du = new dashboard_user();
+                            du.setVisible(true);
+                            this.setVisible(false);
+                        } else if (rolesql.equals("petugas")) {
+                            dashboard_petugas dp = new dashboard_petugas();
+                            dp.setVisible(true);
+                            this.setVisible(false);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Maaf password atau email anda salah");
+                        tfEmail.setText("");
+                        tfPassword.setText("");
+                    }
+                }
+                k.c.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error" + ex, "Error",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
     private void cbShowPassMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbShowPassMouseClicked
         // TODO add your handling code here:
         if(cbShowPass.isSelected()){
@@ -248,6 +315,11 @@ public class login extends javax.swing.JFrame {
         rg.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_lbToRegisterMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        cek();
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -300,7 +372,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lbToRegister;
+    private javax.swing.JTextField tfEmail;
     private javax.swing.JPasswordField tfPassword;
-    private javax.swing.JTextField tfUsername;
     // End of variables declaration//GEN-END:variables
 }

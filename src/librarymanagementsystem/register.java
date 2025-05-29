@@ -6,12 +6,18 @@ package librarymanagementsystem;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.JOptionPane;
+import java.sql.*;
+import librarymanagementsystem.user.dashboard_user;
+
 
 /**
  *
  * @author ASUS
  */
 public class register extends javax.swing.JFrame {
+    koneksiDB k = new koneksiDB();
+   
 
     /**
      * Creates new form login
@@ -83,6 +89,11 @@ public class register extends javax.swing.JFrame {
         btnRegister.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRegister.setForeground(new java.awt.Color(255, 255, 255));
         btnRegister.setText("Register");
+        btnRegister.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRegisterMouseClicked(evt);
+            }
+        });
 
         jLabel7.setForeground(new java.awt.Color(153, 153, 153));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -111,7 +122,7 @@ public class register extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -196,6 +207,38 @@ public class register extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    protected void insert() {
+        try {
+            k.setDriver();
+            k.query = "insert into users values (?,?,?,?,?)";
+            k.CUD();
+            k.ps.setString(1, null);
+            k.ps.setString(2, tfName.getText());
+            k.ps.setString(3, tfEmail.getText());
+            k.ps.setString(4, tfPassword.getText());
+            k.ps.setString(5, "user");
+            k.ps.executeUpdate();
+            
+            
+        } catch (SQLException ex) {
+            System.out.println("Error" + ex);
+            JOptionPane.showMessageDialog(null, "Error " + ex, "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    private void btnRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegisterMouseClicked
+        // TODO add your handling code here:
+        insert();
+        
+        login lg = new login();
+        lg.setVisible(true);
+        this.setVisible(false);
+        
+    }//GEN-LAST:event_btnRegisterMouseClicked
+
+    
+    
     /**
      * @param args the command line arguments
      */

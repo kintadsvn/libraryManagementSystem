@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package crudmysql;
+package librarymanagementsystem;
 
 /**
  *
@@ -28,7 +28,7 @@ public class koneksiDB {
             System.out.println("Error" + ex);
         }
         
-        String local = "jdbc:mysql://localhost:3306/loginpbo";
+        String local = "jdbc:mysql://localhost:3306/library";
         try {
             c = DriverManager.getConnection(local, "root", "");
         } catch (SQLException ex) {
