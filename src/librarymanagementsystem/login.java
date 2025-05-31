@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import java.sql.*;
 import librarymanagementsystem.admin.dashboard_admin;
 import librarymanagementsystem.user.dashboard_user;
-import librarymanagementsystem.librarian.dashboard_petugas;
+import librarymanagementsystem.petugas.dashboard_petugas;
 
 
 
