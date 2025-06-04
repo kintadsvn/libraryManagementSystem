@@ -17,11 +17,11 @@ public class koneksiDB {
     Connection c;
     Statement s;
     ResultSet rs;
-    PreparedStatement ps;
-    String query;
+    public PreparedStatement ps;
+    public String query;
     
     //method untuk koneksi ke driver dan database
-    void setDriver() {
+    public void setDriver() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
@@ -37,7 +37,7 @@ public class koneksiDB {
     }
     
     //method untuk query select
-    void read() {
+    public void read() {
         try {
             s = c.createStatement();
             rs = s.executeQuery(query);
@@ -47,7 +47,7 @@ public class koneksiDB {
     }
     
     //method untuk query insert, update dan delete
-    void CUD() {
+    public void CUD() {
         try {
             ps = c.prepareStatement(query);
         } catch (SQLException ex) {
