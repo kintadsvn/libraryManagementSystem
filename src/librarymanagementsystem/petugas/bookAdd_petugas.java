@@ -68,19 +68,19 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         tfISSN13 = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jCheckBox7 = new javax.swing.JCheckBox();
-        jCheckBox8 = new javax.swing.JCheckBox();
-        jCheckBox9 = new javax.swing.JCheckBox();
-        jCheckBox10 = new javax.swing.JCheckBox();
-        jCheckBox11 = new javax.swing.JCheckBox();
-        jCheckBox12 = new javax.swing.JCheckBox();
-        jCheckBox13 = new javax.swing.JCheckBox();
+        chFiction = new javax.swing.JCheckBox();
+        chNonFiction = new javax.swing.JCheckBox();
+        chHistorical = new javax.swing.JCheckBox();
+        chComedy = new javax.swing.JCheckBox();
+        chBiography = new javax.swing.JCheckBox();
+        chRomance = new javax.swing.JCheckBox();
+        chSciFi = new javax.swing.JCheckBox();
+        chHorror = new javax.swing.JCheckBox();
+        chThriller = new javax.swing.JCheckBox();
+        chFantasy = new javax.swing.JCheckBox();
+        chReligious = new javax.swing.JCheckBox();
+        chEducational = new javax.swing.JCheckBox();
+        chOther = new javax.swing.JCheckBox();
         tfImageURL = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -288,31 +288,31 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         jLabel18.setForeground(new java.awt.Color(3, 58, 89));
         jLabel18.setText("Genre");
 
-        jCheckBox1.setText("Fiction");
+        chFiction.setText("Fiction");
 
-        jCheckBox2.setText("Non-Fiction");
+        chNonFiction.setText("Non-Fiction");
 
-        jCheckBox3.setText("Historical");
+        chHistorical.setText("Historical");
 
-        jCheckBox4.setText("Comedy");
+        chComedy.setText("Comedy");
 
-        jCheckBox5.setText("Biography");
+        chBiography.setText("Biography");
 
-        jCheckBox6.setText("Romance");
+        chRomance.setText("Romance");
 
-        jCheckBox7.setText("Sci-Fi");
+        chSciFi.setText("Sci-Fi");
 
-        jCheckBox8.setText("Horror");
+        chHorror.setText("Horror");
 
-        jCheckBox9.setText("Thriller");
+        chThriller.setText("Thriller");
 
-        jCheckBox10.setText("Fantasy");
+        chFantasy.setText("Fantasy");
 
-        jCheckBox11.setText("Religious");
+        chReligious.setText("Religious");
 
-        jCheckBox12.setText("Educational");
+        chEducational.setText("Educational");
 
-        jCheckBox13.setText("Other");
+        chOther.setText("Other");
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(3, 58, 89));
@@ -384,31 +384,31 @@ public class bookAdd_petugas extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel12Layout.createSequentialGroup()
-                                .addComponent(jCheckBox7)
+                                .addComponent(chSciFi)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox8)
+                                .addComponent(chHorror)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox9)
+                                .addComponent(chThriller)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox10)
+                                .addComponent(chFantasy)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox11)
+                                .addComponent(chReligious)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox12)
+                                .addComponent(chEducational)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox13))
+                                .addComponent(chOther))
                             .addGroup(jPanel12Layout.createSequentialGroup()
-                                .addComponent(jCheckBox1)
+                                .addComponent(chFiction)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox2)
+                                .addComponent(chNonFiction)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox3)
+                                .addComponent(chHistorical)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox4)
+                                .addComponent(chComedy)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox5)
+                                .addComponent(chBiography)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox6))))
+                                .addComponent(chRomance))))
                     .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel12Layout.createSequentialGroup()
                             .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -464,21 +464,21 @@ public class bookAdd_petugas extends javax.swing.JFrame {
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jCheckBox1)
-                            .addComponent(jCheckBox2)
-                            .addComponent(jCheckBox3)
-                            .addComponent(jCheckBox4)
-                            .addComponent(jCheckBox5)
-                            .addComponent(jCheckBox6))
+                            .addComponent(chFiction)
+                            .addComponent(chNonFiction)
+                            .addComponent(chHistorical)
+                            .addComponent(chComedy)
+                            .addComponent(chBiography)
+                            .addComponent(chRomance))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jCheckBox7)
-                            .addComponent(jCheckBox8)
-                            .addComponent(jCheckBox9)
-                            .addComponent(jCheckBox10)
-                            .addComponent(jCheckBox11)
-                            .addComponent(jCheckBox12)
-                            .addComponent(jCheckBox13)))
+                            .addComponent(chSciFi)
+                            .addComponent(chHorror)
+                            .addComponent(chThriller)
+                            .addComponent(chFantasy)
+                            .addComponent(chReligious)
+                            .addComponent(chEducational)
+                            .addComponent(chOther)))
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addComponent(jLabel18)))
@@ -595,20 +595,20 @@ public class bookAdd_petugas extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbLanguage;
     private javax.swing.JComboBox<String> cbLetterShelfLoc;
     private javax.swing.JComboBox<String> cbNoShelfLoc;
+    private javax.swing.JCheckBox chBiography;
+    private javax.swing.JCheckBox chComedy;
+    private javax.swing.JCheckBox chEducational;
+    private javax.swing.JCheckBox chFantasy;
+    private javax.swing.JCheckBox chFiction;
+    private javax.swing.JCheckBox chHistorical;
+    private javax.swing.JCheckBox chHorror;
+    private javax.swing.JCheckBox chNonFiction;
+    private javax.swing.JCheckBox chOther;
+    private javax.swing.JCheckBox chReligious;
+    private javax.swing.JCheckBox chRomance;
+    private javax.swing.JCheckBox chSciFi;
+    private javax.swing.JCheckBox chThriller;
     private com.toedter.calendar.JDateChooser dcPublicDate;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox10;
-    private javax.swing.JCheckBox jCheckBox11;
-    private javax.swing.JCheckBox jCheckBox12;
-    private javax.swing.JCheckBox jCheckBox13;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JCheckBox jCheckBox7;
-    private javax.swing.JCheckBox jCheckBox8;
-    private javax.swing.JCheckBox jCheckBox9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
