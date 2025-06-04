@@ -6,18 +6,26 @@ package librarymanagementsystem.petugas;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.sql.*;
+import javax.swing.JOptionPane;
+import librarymanagementsystem.koneksiDB;
 
 /**
  *
  * @author ASUS
  */
 public class bookAdd_petugas extends javax.swing.JFrame {
+    String tanggal, genre, shelf_loc;
+    koneksiDB k = new koneksiDB();
 
     /**
      * Creates new form dashboard
      */
     public bookAdd_petugas() {
         initComponents();
+        now();
         
         //Untuk membuat layar centered
         Dimension layar = Toolkit.getDefaultToolkit().getScreenSize();
@@ -26,6 +34,38 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         int y = layar.height / 2 - this.getSize().height / 2;
         
         this.setLocation(x, y);
+        
+        //Mengisi variabel genre
+        if(chFiction.isSelected()){
+            genre = chFiction.getText();
+        } if(chNonFiction.isSelected()){
+            genre = chNonFiction.getText();
+        } if(chHistorical.isSelected()){
+            genre = chHistorical.getText();
+        } if(chComedy.isSelected()){
+            genre = chComedy.getText();
+        } if(chBiography.isSelected()){
+            genre = chBiography.getText();
+        } if(chRomance.isSelected()){
+            genre = chRomance.getText();
+        } if(chSciFi.isSelected()){
+            genre = chSciFi.getText();
+        } if(chHorror.isSelected()){
+            genre = chHorror.getText();
+        } if(chThriller.isSelected()){
+            genre = chThriller.getText();
+        } if(chFantasy.isSelected()){
+            genre = chFantasy.getText();
+        } if(chReligious.isSelected()){
+            genre = chReligious.getText();
+        } if(chEducational.isSelected()){
+            genre = chEducational.getText();
+        } if(chOther.isSelected()){
+            genre = chOther.getText();
+        }
+        
+        //Mengisi variabel Shelf Location
+        shelf_loc = cbNoShelfLoc.getSelectedItem().toString() + cbLetterShelfLoc.getSelectedItem().toString();
     }
 
     /**
@@ -272,13 +312,18 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(3, 58, 89));
         jLabel13.setText("Publication Date");
 
-        dcPublicDate.setDateFormatString("YYYY-MM-D");
+        dcPublicDate.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dcPublicDatePropertyChange(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(3, 58, 89));
         jLabel16.setText("Language");
 
-        cbLanguage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Language", "Indonesian", "English", "Other" }));
+        cbLanguage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Language", "Indonesia", "English", "Other" }));
+        cbLanguage.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(3, 58, 89));
@@ -322,7 +367,6 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         jLabel20.setForeground(new java.awt.Color(3, 58, 89));
         jLabel20.setText("Shelf Location");
 
-        cbNoShelfLoc.setEditable(true);
         cbNoShelfLoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" }));
 
         jLabel21.setForeground(new java.awt.Color(3, 58, 89));
@@ -340,6 +384,11 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         btnSave.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnSave.setForeground(new java.awt.Color(255, 255, 255));
         btnSave.setText("Save");
+        btnSave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSaveMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -452,7 +501,7 @@ public class bookAdd_petugas extends javax.swing.JFrame {
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13)
                     .addComponent(dcPublicDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbLanguage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16))
@@ -548,12 +597,65 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    protected void clearForm(){
+        tfBookTitle.setText("");
+        tfAuthor.setText("");
+        tfPublisher.setText("");
+        dcPublicDate.setDate(null);
+        cbLanguage.setSelectedIndex(0);
+        tfISSN13.setText("");
+        chFiction.setSelected(false);
+    }
+    
+    protected void insertToBooks() {
+        try{
+            k.setDriver();
+            k.query = "insert into books values (?,?,?,?,?,?,?,?,?,?,?)";
+            k.CUD();
+            k.ps.setString(1, null);
+            k.ps.setString(2, tfBookTitle.getText());
+            k.ps.setString(3, tfAuthor.getText());
+            k.ps.setString(4, tfPublisher.getText());
+            k.ps.setString(5, tanggal);
+            k.ps.setString(6, cbLanguage.getSelectedItem().toString());
+            k.ps.setString(7, tfISSN13.getText());
+            k.ps.setString(8, genre);
+            k.ps.setString(9, tfImageURL.getText());
+            k.ps.setString(10, shelf_loc);
+            k.ps.setString(11, null);
+            k.ps.executeUpdate();
+//                    JOptionPane.showMessageDialog(null, "Kode Tiket Anda : "+kodePesan, "Info", JOptionPane.PLAIN_MESSAGE);
+            clearForm();
+        } catch (SQLException ex){
+            System.out.println("Error" + ex);
+            JOptionPane.showMessageDialog(null, "Error " + ex, "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    public void now(){
+        Date hariIni = new Date();
+        dcPublicDate.setDate(hariIni);
+    }
+    
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
         // TODO add your handling code here:
         dashboard_petugas dbp = new dashboard_petugas();
         dbp.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jPanel3MouseClicked
+
+    private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
+        // TODO add your handling code here:
+        insertToBooks();
+    }//GEN-LAST:event_btnSaveMouseClicked
+
+    private void dcPublicDatePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcPublicDatePropertyChange
+        // TODO add your handling code here:
+        if (dcPublicDate.getDate() != null) {
+            SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+            tanggal = s.format(dcPublicDate.getDate());
+        }
+    }//GEN-LAST:event_dcPublicDatePropertyChange
 
     /**
      * @param args the command line arguments
