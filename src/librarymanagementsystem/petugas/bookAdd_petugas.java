@@ -6,26 +6,18 @@ package librarymanagementsystem.petugas;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.sql.*;
-import javax.swing.JOptionPane;
-import librarymanagementsystem.koneksiDB;
 
 /**
  *
  * @author ASUS
  */
 public class bookAdd_petugas extends javax.swing.JFrame {
-    String tanggal, genre, shelf_loc;
-    koneksiDB k = new koneksiDB();
 
     /**
      * Creates new form dashboard
      */
     public bookAdd_petugas() {
         initComponents();
-        now();
         
         //Untuk membuat layar centered
         Dimension layar = Toolkit.getDefaultToolkit().getScreenSize();
@@ -34,38 +26,6 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         int y = layar.height / 2 - this.getSize().height / 2;
         
         this.setLocation(x, y);
-        
-        //Mengisi variabel genre
-        if(chFiction.isSelected()){
-            genre = chFiction.getText();
-        } if(chNonFiction.isSelected()){
-            genre = chNonFiction.getText();
-        } if(chHistorical.isSelected()){
-            genre = chHistorical.getText();
-        } if(chComedy.isSelected()){
-            genre = chComedy.getText();
-        } if(chBiography.isSelected()){
-            genre = chBiography.getText();
-        } if(chRomance.isSelected()){
-            genre = chRomance.getText();
-        } if(chSciFi.isSelected()){
-            genre = chSciFi.getText();
-        } if(chHorror.isSelected()){
-            genre = chHorror.getText();
-        } if(chThriller.isSelected()){
-            genre = chThriller.getText();
-        } if(chFantasy.isSelected()){
-            genre = chFantasy.getText();
-        } if(chReligious.isSelected()){
-            genre = chReligious.getText();
-        } if(chEducational.isSelected()){
-            genre = chEducational.getText();
-        } if(chOther.isSelected()){
-            genre = chOther.getText();
-        }
-        
-        //Mengisi variabel Shelf Location
-        shelf_loc = cbNoShelfLoc.getSelectedItem().toString() + cbLetterShelfLoc.getSelectedItem().toString();
     }
 
     /**
@@ -102,7 +62,6 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         tfPublisher = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        dcPublicDate = new com.toedter.calendar.JDateChooser();
         jLabel16 = new javax.swing.JLabel();
         cbLanguage = new javax.swing.JComboBox<>();
         jLabel17 = new javax.swing.JLabel();
@@ -168,6 +127,11 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         );
 
         jPanel7.setBackground(new java.awt.Color(96, 150, 186));
+        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel7MouseClicked(evt);
+            }
+        });
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(231, 236, 239));
@@ -198,6 +162,11 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         jLabel7.setText("Log Out");
 
         jPanel9.setBackground(new java.awt.Color(163, 206, 241));
+        jPanel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel9MouseClicked(evt);
+            }
+        });
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(96, 150, 186));
@@ -221,6 +190,11 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         );
 
         jPanel10.setBackground(new java.awt.Color(163, 206, 241));
+        jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel10MouseClicked(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(96, 150, 186));
@@ -312,18 +286,11 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(3, 58, 89));
         jLabel13.setText("Publication Date");
 
-        dcPublicDate.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                dcPublicDatePropertyChange(evt);
-            }
-        });
-
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(3, 58, 89));
         jLabel16.setText("Language");
 
-        cbLanguage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Language", "Indonesia", "English", "Other" }));
-        cbLanguage.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        cbLanguage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Language", "Indonesian", "English", "Other" }));
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(3, 58, 89));
@@ -367,6 +334,7 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         jLabel20.setForeground(new java.awt.Color(3, 58, 89));
         jLabel20.setText("Shelf Location");
 
+        cbNoShelfLoc.setEditable(true);
         cbNoShelfLoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" }));
 
         jLabel21.setForeground(new java.awt.Color(3, 58, 89));
@@ -384,11 +352,6 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         btnSave.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnSave.setForeground(new java.awt.Color(255, 255, 255));
         btnSave.setText("Save");
-        btnSave.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSaveMouseClicked(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -405,9 +368,7 @@ public class bookAdd_petugas extends javax.swing.JFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel12Layout.createSequentialGroup()
                                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(dcPublicDate, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(282, 282, 282))
+                                .addGap(480, 480, 480))
                             .addGroup(jPanel12Layout.createSequentialGroup()
                                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -498,10 +459,8 @@ public class bookAdd_petugas extends javax.swing.JFrame {
                     .addComponent(jLabel11)
                     .addComponent(tfPublisher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel13)
-                    .addComponent(dcPublicDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel13)
+                .addGap(6, 6, 6)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbLanguage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16))
@@ -597,46 +556,6 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    protected void clearForm(){
-        tfBookTitle.setText("");
-        tfAuthor.setText("");
-        tfPublisher.setText("");
-        dcPublicDate.setDate(null);
-        cbLanguage.setSelectedIndex(0);
-        tfISSN13.setText("");
-        chFiction.setSelected(false);
-    }
-    
-    protected void insertToBooks() {
-        try{
-            k.setDriver();
-            k.query = "insert into books values (?,?,?,?,?,?,?,?,?,?,?)";
-            k.CUD();
-            k.ps.setString(1, null);
-            k.ps.setString(2, tfBookTitle.getText());
-            k.ps.setString(3, tfAuthor.getText());
-            k.ps.setString(4, tfPublisher.getText());
-            k.ps.setString(5, tanggal);
-            k.ps.setString(6, cbLanguage.getSelectedItem().toString());
-            k.ps.setString(7, tfISSN13.getText());
-            k.ps.setString(8, genre);
-            k.ps.setString(9, tfImageURL.getText());
-            k.ps.setString(10, shelf_loc);
-            k.ps.setString(11, null);
-            k.ps.executeUpdate();
-//                    JOptionPane.showMessageDialog(null, "Kode Tiket Anda : "+kodePesan, "Info", JOptionPane.PLAIN_MESSAGE);
-            clearForm();
-        } catch (SQLException ex){
-            System.out.println("Error" + ex);
-            JOptionPane.showMessageDialog(null, "Error " + ex, "Warning", JOptionPane.WARNING_MESSAGE);
-        }
-    }
-    
-    public void now(){
-        Date hariIni = new Date();
-        dcPublicDate.setDate(hariIni);
-    }
-    
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
         // TODO add your handling code here:
         dashboard_petugas dbp = new dashboard_petugas();
@@ -644,18 +563,24 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jPanel3MouseClicked
 
-    private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
+    private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
         // TODO add your handling code here:
-        insertToBooks();
-    }//GEN-LAST:event_btnSaveMouseClicked
+        membersData_petugas mdp = new membersData_petugas();
+        mdp.setVisible(true);
+        this.setVisible(false);
+        
+    }//GEN-LAST:event_jPanel9MouseClicked
 
-    private void dcPublicDatePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcPublicDatePropertyChange
+    private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
         // TODO add your handling code here:
-        if (dcPublicDate.getDate() != null) {
-            SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
-            tanggal = s.format(dcPublicDate.getDate());
-        }
-    }//GEN-LAST:event_dcPublicDatePropertyChange
+        borrowData_petugas bdp = new borrowData_petugas();
+        bdp.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel10MouseClicked
+
+    private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel7MouseClicked
 
     /**
      * @param args the command line arguments
@@ -710,7 +635,6 @@ public class bookAdd_petugas extends javax.swing.JFrame {
     private javax.swing.JCheckBox chRomance;
     private javax.swing.JCheckBox chSciFi;
     private javax.swing.JCheckBox chThriller;
-    private com.toedter.calendar.JDateChooser dcPublicDate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
