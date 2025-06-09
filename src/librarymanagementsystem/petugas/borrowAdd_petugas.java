@@ -74,6 +74,11 @@ public class borrowAdd_petugas extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo_horizontal.png"))); // NOI18N
 
         jPanel3.setBackground(new java.awt.Color(163, 206, 241));
+        jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel3MouseClicked(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(96, 150, 186));
@@ -97,6 +102,11 @@ public class borrowAdd_petugas extends javax.swing.JFrame {
         );
 
         jPanel7.setBackground(new java.awt.Color(163, 206, 241));
+        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel7MouseClicked(evt);
+            }
+        });
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(96, 150, 186));
@@ -127,6 +137,11 @@ public class borrowAdd_petugas extends javax.swing.JFrame {
         jLabel7.setText("Log Out");
 
         jPanel9.setBackground(new java.awt.Color(163, 206, 241));
+        jPanel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel9MouseClicked(evt);
+            }
+        });
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(96, 150, 186));
@@ -354,6 +369,27 @@ public class borrowAdd_petugas extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
+        // TODO add your handling code here:
+        dashboard_petugas dbp = new dashboard_petugas();
+        dbp.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel3MouseClicked
+
+    private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
+        // TODO add your handling code here:
+        membersData_petugas mdp = new membersData_petugas();
+        mdp.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel9MouseClicked
+
+    private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
+        // TODO add your handling code here:
+        booksData_petugas odp = new booksData_petugas();
+        odp.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel7MouseClicked
 
     /**
      * @param args the command line arguments
