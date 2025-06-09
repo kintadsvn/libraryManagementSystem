@@ -84,6 +84,11 @@ public class register extends javax.swing.JFrame {
 
         cbShowPass1.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         cbShowPass1.setText("Show");
+        cbShowPass1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbShowPass1MouseClicked(evt);
+            }
+        });
 
         btnRegister.setBackground(new java.awt.Color(3, 58, 89));
         btnRegister.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -114,6 +119,11 @@ public class register extends javax.swing.JFrame {
 
         cbShowPass2.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         cbShowPass2.setText("Show");
+        cbShowPass2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbShowPass2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -208,34 +218,93 @@ public class register extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
+    
+    
     protected void insert() {
+        String name = tfName.getText();
+        String email = tfEmail.getText();
+        String password = tfPassword.getText();
+
+        // Validasi input kosong (termasuk spasi)
+        if (name.trim().isEmpty() || email.trim().isEmpty() || password.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Semua field harus diisi!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validasi format email sederhana
+        if (!email.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")) {
+            JOptionPane.showMessageDialog(null, "Format email tidak valid!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validasi panjang password
+        if (password.length() < 6) {
+            JOptionPane.showMessageDialog(null, "Password minimal 6 karakter!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         try {
             k.setDriver();
-            k.query = "insert into users values (?,?,?,?,?)";
+
+            // Cek apakah email sudah terdaftar
+            k.query = "SELECT * FROM users WHERE email = ?";
+            k.CUD(); // CUD juga digunakan untuk query SELECT dengan prepared statement
+            k.ps.setString(1, email);
+            k.rs = k.ps.executeQuery();
+
+            if (k.rs.next()) {
+                JOptionPane.showMessageDialog(null, "Email sudah terdaftar!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Email belum ada, insert data baru
+            k.query = "INSERT INTO users VALUES (?, ?, ?, ?, ?)";
             k.CUD();
-            k.ps.setString(1, null);
-            k.ps.setString(2, tfName.getText());
-            k.ps.setString(3, tfEmail.getText());
-            k.ps.setString(4, tfPassword.getText());
+            k.ps.setString(1, null); // ID auto-increment (pastikan DB diset AUTO_INCREMENT)
+            k.ps.setString(2, name.trim());
+            k.ps.setString(3, email.trim());
+            k.ps.setString(4, password); // Belum pakai hash, bisa ditambah kalau mau
             k.ps.setString(5, "user");
             k.ps.executeUpdate();
-            
-            
+
+            JOptionPane.showMessageDialog(null, "Registrasi berhasil!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+
+            // Reset input
+            tfName.setText("");
+            tfEmail.setText("");
+            tfPassword.setText("");
+
         } catch (SQLException ex) {
-            System.out.println("Error" + ex);
-            JOptionPane.showMessageDialog(null, "Error " + ex, "Warning", JOptionPane.WARNING_MESSAGE);
+            System.out.println("Error: " + ex);
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
     
     private void btnRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegisterMouseClicked
         // TODO add your handling code here:
         insert();
         
-        login lg = new login();
-        lg.setVisible(true);
-        this.setVisible(false);
-        
     }//GEN-LAST:event_btnRegisterMouseClicked
+
+    private void cbShowPass1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbShowPass1MouseClicked
+        // TODO add your handling code here:
+        if (cbShowPass1.isSelected()) {
+            tfPassword.setEchoChar((char) 0);
+        } else {
+            tfPassword.setEchoChar('*');
+        }
+    }//GEN-LAST:event_cbShowPass1MouseClicked
+
+    private void cbShowPass2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbShowPass2MouseClicked
+        // TODO add your handling code here:
+        if (cbShowPass2.isSelected()) {
+            tfConfirmPass.setEchoChar((char) 0);
+        } else {
+            tfConfirmPass.setEchoChar('*');
+        }
+    }//GEN-LAST:event_cbShowPass2MouseClicked
 
     
     
