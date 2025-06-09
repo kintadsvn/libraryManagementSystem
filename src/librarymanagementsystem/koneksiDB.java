@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public class koneksiDB {
     Connection c;
     Statement s;
-    ResultSet rs;
+    public ResultSet rs;
     public PreparedStatement ps;
     public String query;
     

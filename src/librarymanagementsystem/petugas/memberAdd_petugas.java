@@ -240,6 +240,8 @@ public class memberAdd_petugas extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(3, 58, 89));
         jLabel9.setText("ID");
 
+        jTextField1.setEditable(false);
+
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(3, 58, 89));
         jLabel10.setText("Name");

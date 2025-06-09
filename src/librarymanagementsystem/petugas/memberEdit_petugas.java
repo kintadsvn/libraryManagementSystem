@@ -6,18 +6,25 @@ package librarymanagementsystem.petugas;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.*;
+import javax.swing.JOptionPane;
+import librarymanagementsystem.koneksiDB;
 
 /**
  *
  * @author ASUS
  */
 public class memberEdit_petugas extends javax.swing.JFrame {
+    private String memberId;
+    private koneksiDB k = new koneksiDB();
 
     /**
      * Creates new form dashboard
      */
-    public memberEdit_petugas() {
+    public memberEdit_petugas(String memberId) {
         initComponents();
+        this.memberId = memberId;
+        loadMemberData();
         
         //Untuk membuat layar centered
         Dimension layar = Toolkit.getDefaultToolkit().getScreenSize();
@@ -26,6 +33,10 @@ public class memberEdit_petugas extends javax.swing.JFrame {
         int y = layar.height / 2 - this.getSize().height / 2;
         
         this.setLocation(x, y);
+    }
+
+    private memberEdit_petugas() {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
@@ -231,14 +242,21 @@ public class memberEdit_petugas extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(3, 58, 89));
         jLabel2.setText("/");
 
-        jLabel5.setForeground(new java.awt.Color(3, 58, 89));
+        jLabel5.setForeground(new java.awt.Color(96, 150, 186));
         jLabel5.setText("Member's Name");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         jPanel12.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(3, 58, 89));
         jLabel9.setText("ID");
+
+        jTextField1.setEditable(false);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(3, 58, 89));
@@ -252,7 +270,7 @@ public class memberEdit_petugas extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(3, 58, 89));
         jLabel13.setText("Date of Birth");
 
-        jDateChooser1.setDateFormatString("YYYY-MM-D");
+        jDateChooser1.setDateFormatString("yyyy-MM-dd");
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(3, 58, 89));
@@ -274,6 +292,11 @@ public class memberEdit_petugas extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Save");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         Gender.add(jRadioButton1);
         jRadioButton1.setText("Male");
@@ -438,6 +461,124 @@ public class memberEdit_petugas extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void loadMemberData() {
+        try {
+            k.setDriver();
+            k.query = "SELECT * FROM members WHERE member_id = "+memberId;
+            k.read();
+            
+            if (k.rs.next()) {
+                // Set data ke komponen UI
+                jLabel5.setText(k.rs.getString("name"));
+                jTextField1.setText(k.rs.getString("member_id"));
+                jTextField2.setText(k.rs.getString("name"));
+                
+                String gender = k.rs.getString("gender");
+            
+                if (gender.equalsIgnoreCase("Male")) {
+                    jRadioButton1.setSelected(true);
+                } else {
+                    jRadioButton2.setSelected(true);
+                }
+                
+                java.sql.Date sqlDate = k.rs.getDate("date_of_birth");
+                Date utilDate = new Date(sqlDate.getTime());
+                jDateChooser1.setDate(utilDate);
+                
+                jTextField3.setText(k.rs.getString("phone_number"));
+                jTextField4.setText(k.rs.getString("email"));
+                jTextArea1.setText(k.rs.getString("address"));
+                jTextField5.setText(k.rs.getString("image_url"));
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error loading member data: " + ex.getMessage());
+        }
+    }
+    
+    protected void updateMemberData(){
+        try {
+        // Validasi input
+        if (jTextField2.getText().isEmpty() || 
+            (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) ||
+            jDateChooser1.getDate() == null ||
+            jTextField3.getText().isEmpty() ||
+            jTextField4.getText().isEmpty() ||
+            jTextArea1.getText().isEmpty()) {
+            
+            JOptionPane.showMessageDialog(this, "Harap isi semua data dengan lengkap!");
+            return;
+        }
+
+        // Ambil data dari form
+        String memberId = jTextField1.getText();
+        String name = jTextField2.getText();
+        String gender = jRadioButton1.isSelected() ? "Male" : "Female";
+        java.util.Date utilDate = jDateChooser1.getDate();
+        java.sql.Date dateOfBirth = new java.sql.Date(utilDate.getTime());
+        String phoneNumber = jTextField3.getText();
+        String email = jTextField4.getText();
+        String address = jTextArea1.getText();
+        String imageUrl = jTextField5.getText();
+
+        // Buat query update
+        k.setDriver();
+        k.query = "UPDATE members SET "
+                + "name = ?, "
+                + "gender = ?, "
+                + "date_of_birth = ?, "
+                + "phone_number = ?, "
+                + "email = ?, "
+                + "address = ?, "
+                + "image_url = ? "
+                + "WHERE member_id = ?";
+        k.CUD();
+        
+        k.ps.setString(1, name);
+        k.ps.setString(2, gender);
+        k.ps.setDate(3, dateOfBirth);
+        k.ps.setString(4, phoneNumber);
+        k.ps.setString(5, email);
+        k.ps.setString(6, address);
+        k.ps.setString(7, imageUrl);
+        k.ps.setString(8, memberId);
+
+        // Eksekusi query
+        int rowsAffected = k.ps.executeUpdate();
+        
+        if (rowsAffected > 0) {
+            JOptionPane.showMessageDialog(this, "Data member berhasil diperbarui!");
+            
+            // Kembali ke halaman detail
+            memberDetail_petugas detail = new memberDetail_petugas(memberId);
+            detail.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Gagal memperbarui data member!");
+        }
+        
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+    }
+    }
+    
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        updateMemberData();
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        // TODO add your handling code here:
+        int z = JOptionPane.showOptionDialog(null, "Kembali ke detail data member", "Kembali", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+        
+        switch(z){
+            case JOptionPane.YES_OPTION:
+                memberDetail_petugas back = new memberDetail_petugas(memberId);
+                back.show();
+                this.dispose();
+                break;
+        }
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments

@@ -17,7 +17,7 @@ import librarymanagementsystem.koneksiDB;
  * @author ASUS
  */
 public class bookAdd_petugas extends javax.swing.JFrame {
-    String tanggal, genre, shelf_loc;
+    String tanggal;
     koneksiDB k = new koneksiDB();
 
     /**
@@ -34,38 +34,6 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         int y = layar.height / 2 - this.getSize().height / 2;
         
         this.setLocation(x, y);
-        
-        //Mengisi variabel genre
-        if(chFiction.isSelected()){
-            genre = chFiction.getText();
-        } if(chNonFiction.isSelected()){
-            genre = chNonFiction.getText();
-        } if(chHistorical.isSelected()){
-            genre = chHistorical.getText();
-        } if(chComedy.isSelected()){
-            genre = chComedy.getText();
-        } if(chBiography.isSelected()){
-            genre = chBiography.getText();
-        } if(chRomance.isSelected()){
-            genre = chRomance.getText();
-        } if(chSciFi.isSelected()){
-            genre = chSciFi.getText();
-        } if(chHorror.isSelected()){
-            genre = chHorror.getText();
-        } if(chThriller.isSelected()){
-            genre = chThriller.getText();
-        } if(chFantasy.isSelected()){
-            genre = chFantasy.getText();
-        } if(chReligious.isSelected()){
-            genre = chReligious.getText();
-        } if(chEducational.isSelected()){
-            genre = chEducational.getText();
-        } if(chOther.isSelected()){
-            genre = chOther.getText();
-        }
-        
-        //Mengisi variabel Shelf Location
-        shelf_loc = cbNoShelfLoc.getSelectedItem().toString() + cbLetterShelfLoc.getSelectedItem().toString();
     }
 
     /**
@@ -324,6 +292,11 @@ public class bookAdd_petugas extends javax.swing.JFrame {
 
         cbLanguage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Language", "Indonesia", "English", "Other" }));
         cbLanguage.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        cbLanguage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbLanguageMouseClicked(evt);
+            }
+        });
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(3, 58, 89));
@@ -604,11 +577,51 @@ public class bookAdd_petugas extends javax.swing.JFrame {
         dcPublicDate.setDate(null);
         cbLanguage.setSelectedIndex(0);
         tfISSN13.setText("");
+        tfImageURL.setText("");
+        tfStockBook.setText("0");
         chFiction.setSelected(false);
+        chNonFiction.setSelected(false);
+        chHistorical.setSelected(false);
+        chComedy.setSelected(false);
+        chBiography.setSelected(false);
+        chRomance.setSelected(false);
+        chSciFi.setSelected(false);
+        chHorror.setSelected(false);
+        chThriller.setSelected(false);
+        chFantasy.setSelected(false);
+        chReligious.setSelected(false);
+        chEducational.setSelected(false);
+        chOther.setSelected(false);
+        cbNoShelfLoc.setSelectedIndex(0);
+        cbLetterShelfLoc.setSelectedIndex(0);
     }
     
     protected void insertToBooks() {
         try{
+            // Ambil genre terkini (multiple selection)
+            StringBuilder genreBuilder = new StringBuilder();
+            if (chFiction.isSelected()) genreBuilder.append("Fiction");
+            if (chNonFiction.isSelected()) genreBuilder.append("Non-Fiction");
+            if (chHistorical.isSelected()) genreBuilder.append("Historical");
+            if (chComedy.isSelected()) genreBuilder.append("Comedy");
+            if (chBiography.isSelected()) genreBuilder.append("Biography");
+            if (chRomance.isSelected()) genreBuilder.append("Romance");
+            if (chSciFi.isSelected()) genreBuilder.append("Sci-Fi");
+            if (chHorror.isSelected()) genreBuilder.append("Horror");
+            if (chThriller.isSelected()) genreBuilder.append("Thriller");
+            if (chFantasy.isSelected()) genreBuilder.append("Fantasy");
+            if (chReligious.isSelected()) genreBuilder.append("Religious");
+            if (chEducational.isSelected()) genreBuilder.append("Educational");
+            if (chOther.isSelected()) genreBuilder.append("Other");
+            
+            String genres = genreBuilder.length() > 0 
+                ? genreBuilder.substring(0, genreBuilder.length() - 1) 
+                : ", ";
+
+            // Ambil shelf location terkini
+            String shelf = cbNoShelfLoc.getSelectedItem().toString() + 
+                           cbLetterShelfLoc.getSelectedItem().toString();
+            
             k.setDriver();
             k.query = "insert into books values (?,?,?,?,?,?,?,?,?,?,?)";
             k.CUD();
@@ -619,12 +632,12 @@ public class bookAdd_petugas extends javax.swing.JFrame {
             k.ps.setString(5, tanggal);
             k.ps.setString(6, cbLanguage.getSelectedItem().toString());
             k.ps.setString(7, tfISSN13.getText());
-            k.ps.setString(8, genre);
+            k.ps.setString(8, genres);
             k.ps.setString(9, tfImageURL.getText());
-            k.ps.setString(10, shelf_loc);
+            k.ps.setString(10, shelf);
             k.ps.setString(11, null);
             k.ps.executeUpdate();
-//                    JOptionPane.showMessageDialog(null, "Kode Tiket Anda : "+kodePesan, "Info", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Buku berhasil ditambahkan!");
             clearForm();
         } catch (SQLException ex){
             System.out.println("Error" + ex);
@@ -656,6 +669,11 @@ public class bookAdd_petugas extends javax.swing.JFrame {
             tanggal = s.format(dcPublicDate.getDate());
         }
     }//GEN-LAST:event_dcPublicDatePropertyChange
+
+    private void cbLanguageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbLanguageMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cbLanguageMouseClicked
 
     /**
      * @param args the command line arguments
