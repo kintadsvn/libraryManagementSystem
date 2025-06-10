@@ -11,6 +11,8 @@ import java.sql.*;
 import librarymanagementsystem.admin.dashboard_admin;
 import librarymanagementsystem.user.dashboard_user;
 import librarymanagementsystem.petugas.dashboard_petugas;
+import librarymanagementsystem.petugas.userSession;
+
 
 
 
@@ -22,7 +24,7 @@ import librarymanagementsystem.petugas.dashboard_petugas;
 public class login extends javax.swing.JFrame {
     koneksiDB k = new koneksiDB();
     
-    String email, password, emailsql, passsql, rolesql;
+    String username, email, password, emailsql, passsql, rolesql;
 
     /**
      * Creates new form login
@@ -271,9 +273,12 @@ public class login extends javax.swing.JFrame {
                     tfPassword.setText("");
                 } else {
                     // Ada data, lanjutkan proses login
+                    username = k.rs.getString("name");
                     emailsql = k.rs.getString("email");
                     passsql = k.rs.getString("password");
                     rolesql = k.rs.getString("role");
+                    
+                    userSession.setSession(username, emailsql, rolesql);
 
                     if (rolesql.equals("admin")) {
                         dashboard_admin da = new dashboard_admin();

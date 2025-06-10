@@ -18,6 +18,7 @@ public class memberDetail_petugas extends javax.swing.JFrame {
      */
     public memberDetail_petugas() {
         initComponents();
+        jLabel6.setText(userSession.getUsername());
         
         //Untuk membuat layar centered
         Dimension layar = Toolkit.getDefaultToolkit().getScreenSize();

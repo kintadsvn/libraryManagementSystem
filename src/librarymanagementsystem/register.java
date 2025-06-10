@@ -224,9 +224,10 @@ public class register extends javax.swing.JFrame {
         String name = tfName.getText();
         String email = tfEmail.getText();
         String password = tfPassword.getText();
+        String confirmPassword = tfConfirmPass.getText(); // Field baru
 
         // Validasi input kosong (termasuk spasi)
-        if (name.trim().isEmpty() || email.trim().isEmpty() || password.trim().isEmpty()) {
+        if (name.trim().isEmpty() || email.trim().isEmpty() || password.trim().isEmpty() || confirmPassword.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Semua field harus diisi!", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -240,6 +241,12 @@ public class register extends javax.swing.JFrame {
         // Validasi panjang password
         if (password.length() < 6) {
             JOptionPane.showMessageDialog(null, "Password minimal 6 karakter!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validasi kesamaan password dan konfirmasi password
+        if (!password.equals(confirmPassword)) {
+            JOptionPane.showMessageDialog(null, "Konfirmasi password tidak cocok!", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -260,10 +267,10 @@ public class register extends javax.swing.JFrame {
             // Email belum ada, insert data baru
             k.query = "INSERT INTO users VALUES (?, ?, ?, ?, ?)";
             k.CUD();
-            k.ps.setString(1, null); // ID auto-increment (pastikan DB diset AUTO_INCREMENT)
+            k.ps.setString(1, null); // ID auto-increment
             k.ps.setString(2, name.trim());
             k.ps.setString(3, email.trim());
-            k.ps.setString(4, password); // Belum pakai hash, bisa ditambah kalau mau
+            k.ps.setString(4, password); // Tambahkan hashing jika perlu
             k.ps.setString(5, "user");
             k.ps.executeUpdate();
 
@@ -273,12 +280,14 @@ public class register extends javax.swing.JFrame {
             tfName.setText("");
             tfEmail.setText("");
             tfPassword.setText("");
+            tfConfirmPass.setText("");
 
         } catch (SQLException ex) {
             System.out.println("Error: " + ex);
             JOptionPane.showMessageDialog(null, "Terjadi kesalahan: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
 
     
