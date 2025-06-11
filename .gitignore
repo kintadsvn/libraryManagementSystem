@@ -1,0 +1,40 @@
+# ====================
+# Build output
+# ====================
+build/
+dist/
+*.class
+
+# ====================
+# NetBeans specific
+# ====================
+nbproject/private/
+nbbuild/
+nbdist/
+.nb-gradle/
+*.orig
+
+# ====================
+# General IDE files
+# ====================
+*.log
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# ====================
+# OS generated files
+# ====================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ====================
+# Misc
+# ====================
+*.swp
+*.bak
+*.tmp
+*.~*
