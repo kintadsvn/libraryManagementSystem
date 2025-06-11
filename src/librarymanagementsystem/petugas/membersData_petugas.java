@@ -6,19 +6,34 @@ package librarymanagementsystem.petugas;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import librarymanagementsystem.koneksiDB;
 
 /**
  *
  * @author ASUS
  */
 public class membersData_petugas extends javax.swing.JFrame {
+    String a, b, c;
+    koneksiDB k = new koneksiDB();
+    DefaultTableModel tabModel;
 
     /**
      * Creates new form dashboard
      */
     public membersData_petugas() {
         initComponents();
+
+        showData();
+
         jLabel6.setText(userSession.getUsername());
+
         
         //Untuk membuat layar centered
         Dimension layar = Toolkit.getDefaultToolkit().getScreenSize();
@@ -229,6 +244,12 @@ public class membersData_petugas extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(3, 58, 89));
         jLabel8.setText("Members Data");
 
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+        });
+
         jLabel4.setText("Search");
 
         jLabel5.setText("Sort");
@@ -258,18 +279,33 @@ public class membersData_petugas extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setBackground(new java.awt.Color(0, 153, 153));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Add New Member");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jLabel2.setText("ID Member");
 
         jButton2.setBackground(new java.awt.Color(0, 153, 0));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("View");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -352,6 +388,57 @@ public class membersData_petugas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
+    void showData(){
+        try{
+            tabModel = (DefaultTableModel) jTable1.getModel();
+            tabModel.setRowCount(0);
+            k.setDriver();
+            k.query = "select * from members";
+            k.read();
+            while (k.rs.next()) {
+                a = k.rs.getString("member_id");
+                b = k.rs.getString("name");
+                c = k.rs.getString("join_date");
+                String[] data = {a, b, c};
+                tabModel.addRow(data);
+            }
+        } catch (SQLException ex){
+            System.out.println("Error" + ex);
+        }
+    }
+    
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int row = jTable1.getSelectedRow();
+        if (row >= 0) {
+            String selectedId = jTable1.getValueAt(row, 0).toString();
+            jTextField2.setText(selectedId);
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jTextField1KeyPressed
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+        String selectedId = jTextField2.getText();
+        if (!selectedId.isEmpty()) {
+            // Buka form detail dengan mengirim ID member
+            memberDetail_petugas detailForm = new memberDetail_petugas(selectedId);
+            detailForm.setVisible(true);
+            this.dispose(); // Optional: tutup form saat ini
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a member first");
+        }
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1MouseClicked
+
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
         // TODO add your handling code here:
         dashboard_petugas dbp = new dashboard_petugas();
@@ -372,6 +459,7 @@ public class membersData_petugas extends javax.swing.JFrame {
         bdp.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jPanel10MouseClicked
+
 
     /**
      * @param args the command line arguments

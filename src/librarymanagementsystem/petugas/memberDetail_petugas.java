@@ -6,19 +6,29 @@ package librarymanagementsystem.petugas;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.*;
+import javax.swing.JOptionPane;
+import librarymanagementsystem.koneksiDB;
 
 /**
  *
  * @author ASUS
  */
 public class memberDetail_petugas extends javax.swing.JFrame {
+    private String memberId;
+    private koneksiDB k = new koneksiDB();
 
     /**
      * Creates new form dashboard
      */
-    public memberDetail_petugas() {
+    public memberDetail_petugas(String memberId) {
         initComponents();
+
+        this.memberId = memberId;
+        loadMemberData();
+
         jLabel6.setText(userSession.getUsername());
+
         
         //Untuk membuat layar centered
         Dimension layar = Toolkit.getDefaultToolkit().getScreenSize();
@@ -27,6 +37,10 @@ public class memberDetail_petugas extends javax.swing.JFrame {
         int y = layar.height / 2 - this.getSize().height / 2;
         
         this.setLocation(x, y);
+    }
+
+    private memberDetail_petugas() {
+//        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
@@ -242,6 +256,11 @@ public class memberDetail_petugas extends javax.swing.JFrame {
 
         jLabel4.setForeground(new java.awt.Color(96, 150, 186));
         jLabel4.setText("Members Data");
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
 
         jLabel2.setForeground(new java.awt.Color(3, 58, 89));
         jLabel2.setText("/");
@@ -377,11 +396,21 @@ public class memberDetail_petugas extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Edit Member");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(255, 0, 0));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Delete Member");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -474,6 +503,74 @@ public class memberDetail_petugas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
+    // Method untuk memuat data member berdasarkan ID
+    private void loadMemberData() {
+        try {
+            k.setDriver();
+            k.query = "SELECT * FROM members WHERE member_id = "+memberId;
+            k.read();
+            
+            if (k.rs.next()) {
+                // Set data ke komponen UI
+                jLabel5.setText(k.rs.getString("name"));
+                jLabel11.setText(k.rs.getString("member_id"));
+                jLabel21.setText(k.rs.getString("name"));
+                jLabel22.setText(k.rs.getString("gender"));
+                jLabel23.setText(k.rs.getString("date_of_birth"));
+                jLabel24.setText(k.rs.getString("phone_number"));
+                jLabel25.setText(k.rs.getString("email"));
+                jLabel26.setText(k.rs.getString("address"));
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error loading member data: " + ex.getMessage());
+        }
+    }
+    
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        String selectedId = jLabel11.getText();
+        if (!selectedId.isEmpty()) {
+            // Buka form detail dengan mengirim ID member
+            memberEdit_petugas editForm = new memberEdit_petugas(selectedId);
+            editForm.setVisible(true);
+            this.dispose(); // Optional: tutup form saat ini
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a member first");
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+        try{
+            
+            int z = JOptionPane.showOptionDialog(null, "Hapus data "+jLabel21.getText()+"?", "Hapus", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
+        
+            switch(z){
+                case JOptionPane.YES_OPTION:
+                    k.setDriver();
+                    k.query = "delete from members where member_id="+jLabel11.getText();
+                    k.CUD();
+                    k.ps.executeUpdate();
+                    
+                    membersData_petugas md = new membersData_petugas();
+                    md.show();
+                    this.dispose();
+                    break;
+            }
+        } catch (SQLException ex){
+            System.out.println("Error" + ex);
+            JOptionPane.showMessageDialog(null, "Error " + ex, "Warning", JOptionPane.WARNING_MESSAGE); 
+        }
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        // TODO add your handling code here:
+        membersData_petugas md = new membersData_petugas();
+        md.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jLabel4MouseClicked
+
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
         // TODO add your handling code here:
         dashboard_petugas dbp = new dashboard_petugas();
@@ -494,6 +591,7 @@ public class memberDetail_petugas extends javax.swing.JFrame {
         odp.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jPanel10MouseClicked
+
 
     /**
      * @param args the command line arguments
