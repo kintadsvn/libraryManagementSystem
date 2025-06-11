@@ -118,7 +118,7 @@
                   </Group>
                   <Component id="jPanel7" alignment="1" max="32767" attributes="0"/>
                   <Component id="jPanel9" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jPanel10" alignment="1" max="32767" attributes="0"/>
+                  <Component id="jPanel10" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -157,6 +157,9 @@
                   <Color blue="f1" green="ce" red="a3" type="rgb"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel3MouseClicked"/>
+              </Events>
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -198,6 +201,9 @@
                   <Color blue="f1" green="ce" red="a3" type="rgb"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel7MouseClicked"/>
+              </Events>
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -299,13 +305,16 @@
                   <Color blue="f1" green="ce" red="a3" type="rgb"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel10MouseClicked"/>
+              </Events>
 
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                          <Component id="jLabel15" pref="155" max="32767" attributes="0"/>
+                          <Component id="jLabel15" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                       </Group>
                   </Group>

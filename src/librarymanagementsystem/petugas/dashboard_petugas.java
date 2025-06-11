@@ -6,6 +6,13 @@ package librarymanagementsystem.petugas;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.JOptionPane;
+import java.sql.*;
+import librarymanagementsystem.petugas.userSession;
+import librarymanagementsystem.login;
+
+
+
 
 /**
  *
@@ -18,6 +25,8 @@ public class dashboard_petugas extends javax.swing.JFrame {
      */
     public dashboard_petugas() {
         initComponents();
+        jLabel6.setText(userSession.getUsername());
+
         
         //Untuk membuat layar centered
         Dimension layar = Toolkit.getDefaultToolkit().getScreenSize();
@@ -84,6 +93,11 @@ public class dashboard_petugas extends javax.swing.JFrame {
         );
 
         jPanel7.setBackground(new java.awt.Color(163, 206, 241));
+        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel7MouseClicked(evt);
+            }
+        });
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(96, 150, 186));
@@ -109,11 +123,26 @@ public class dashboard_petugas extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(3, 58, 89));
         jLabel6.setText("Name");
+        jLabel6.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jLabel6ComponentShown(evt);
+            }
+        });
 
         jLabel7.setForeground(new java.awt.Color(255, 0, 51));
         jLabel7.setText("Log Out");
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
 
         jPanel9.setBackground(new java.awt.Color(163, 206, 241));
+        jPanel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel9MouseClicked(evt);
+            }
+        });
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(96, 150, 186));
@@ -137,6 +166,11 @@ public class dashboard_petugas extends javax.swing.JFrame {
         );
 
         jPanel10.setBackground(new java.awt.Color(163, 206, 241));
+        jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel10MouseClicked(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(96, 150, 186));
@@ -233,6 +267,44 @@ public class dashboard_petugas extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    
+    
+    private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
+        // TODO add your handling code here:
+        booksData_petugas odp = new booksData_petugas();
+        odp.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel7MouseClicked
+
+    private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
+        // TODO add your handling code here:
+        membersData_petugas mdp = new membersData_petugas();
+        mdp.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel9MouseClicked
+
+    private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
+        // TODO add your handling code here:
+        borrowData_petugas bdp = new borrowData_petugas();
+        bdp.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel10MouseClicked
+
+    private void jLabel6ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jLabel6ComponentShown
+        // TODO add your handling code here:
+//        jLabel6.setText(userSession.getUsername());
+    }//GEN-LAST:event_jLabel6ComponentShown
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        // TODO add your handling code here:
+        int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin logout?", "Logout", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            userSession.clearSession(); // Hapus data session
+            new login().setVisible(true); // Kembali ke login
+            this.dispose(); // Tutup dashboard
+        }
+    }//GEN-LAST:event_jLabel7MouseClicked
 
     /**
      * @param args the command line arguments

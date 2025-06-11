@@ -11,6 +11,8 @@ import java.sql.*;
 import librarymanagementsystem.admin.dashboard_admin;
 import librarymanagementsystem.user.dashboard_user;
 import librarymanagementsystem.petugas.dashboard_petugas;
+import librarymanagementsystem.petugas.userSession;
+
 
 
 
@@ -22,7 +24,7 @@ import librarymanagementsystem.petugas.dashboard_petugas;
 public class login extends javax.swing.JFrame {
     koneksiDB k = new koneksiDB();
     
-    String email, password, emailsql, passsql, rolesql;
+    String username, email, password, emailsql, passsql, rolesql;
 
     /**
      * Creates new form login
@@ -258,45 +260,48 @@ public class login extends javax.swing.JFrame {
         else if(password.equals("")||email.equals("")){
             JOptionPane.showMessageDialog(null,"Lengkapi datanya", "Info",JOptionPane.WARNING_MESSAGE);
         }
-        else{
+        else {
             try {
-                //login dengan mengambil data ke database
                 k.setDriver();
-                k.query = "select * from users where email = '"+email+"' AND password = '"+password+"'";
+                k.query = "SELECT * FROM users WHERE email = '" + email + "' AND password = '" + password + "'";
                 k.read();
-                
-                while(k.rs.next()) {
+
+                if (!k.rs.next()) {
+                    // Tidak ada data yang cocok
+                    JOptionPane.showMessageDialog(null, "Email atau password salah!", "Login Gagal", JOptionPane.ERROR_MESSAGE);
+                    tfEmail.setText("");
+                    tfPassword.setText("");
+                } else {
+                    // Ada data, lanjutkan proses login
+                    username = k.rs.getString("name");
                     emailsql = k.rs.getString("email");
                     passsql = k.rs.getString("password");
                     rolesql = k.rs.getString("role");
-
                     
-                    if ((emailsql != null) && (passsql != null)) {
-                        if (rolesql.equals("admin")) {
-                            dashboard_admin da = new dashboard_admin();
-                            da.setVisible(true);
+                    userSession.setSession(username, emailsql, rolesql);
 
-                            this.setVisible(false);
-                        } else if (rolesql.equals("user")) {
-                            dashboard_user du = new dashboard_user();
-                            du.setVisible(true);
-                            this.setVisible(false);
-                        } else if (rolesql.equals("petugas")) {
-                            dashboard_petugas dp = new dashboard_petugas();
-                            dp.setVisible(true);
-                            this.setVisible(false);
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Maaf password atau email anda salah");
-                        tfEmail.setText("");
-                        tfPassword.setText("");
+                    if (rolesql.equals("admin")) {
+                        dashboard_admin da = new dashboard_admin();
+                        da.setVisible(true);
+                        this.setVisible(false);
+                    } else if (rolesql.equals("user")) {
+                        dashboard_user du = new dashboard_user();
+                        du.setVisible(true);
+                        this.setVisible(false);
+                    } else if (rolesql.equals("petugas")) {
+                        dashboard_petugas dp = new dashboard_petugas();
+                        dp.setVisible(true);
+                        this.setVisible(false);
                     }
                 }
+
                 k.c.close();
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Error" + ex, "Error",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+
+
     }
     
     private void cbShowPassMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbShowPassMouseClicked
