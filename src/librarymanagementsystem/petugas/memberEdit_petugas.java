@@ -498,68 +498,68 @@ public class memberEdit_petugas extends javax.swing.JFrame {
     
     protected void updateMemberData(){
         try {
-        // Validasi input
-        if (jTextField2.getText().isEmpty() || 
-            (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) ||
-            jDateChooser1.getDate() == null ||
-            jTextField3.getText().isEmpty() ||
-            jTextField4.getText().isEmpty() ||
-            jTextArea1.getText().isEmpty()) {
-            
-            JOptionPane.showMessageDialog(this, "Harap isi semua data dengan lengkap!");
-            return;
+            // Validasi input
+            if (jTextField2.getText().isEmpty() || 
+                (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) ||
+                jDateChooser1.getDate() == null ||
+                jTextField3.getText().isEmpty() ||
+                jTextField4.getText().isEmpty() ||
+                jTextArea1.getText().isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Harap isi semua data dengan lengkap!");
+                return;
+            }
+
+            // Ambil data dari form
+            String memberId = jTextField1.getText();
+            String name = jTextField2.getText();
+            String gender = jRadioButton1.isSelected() ? "Male" : "Female";
+            java.util.Date utilDate = jDateChooser1.getDate();
+            java.sql.Date dateOfBirth = new java.sql.Date(utilDate.getTime());
+            String phoneNumber = jTextField3.getText();
+            String email = jTextField4.getText();
+            String address = jTextArea1.getText();
+            String imageUrl = jTextField5.getText();
+
+            // Buat query update
+            k.setDriver();
+            k.query = "UPDATE members SET "
+                    + "name = ?, "
+                    + "gender = ?, "
+                    + "date_of_birth = ?, "
+                    + "phone_number = ?, "
+                    + "email = ?, "
+                    + "address = ?, "
+                    + "image_url = ? "
+                    + "WHERE member_id = ?";
+            k.CUD();
+
+            k.ps.setString(1, name);
+            k.ps.setString(2, gender);
+            k.ps.setDate(3, dateOfBirth);
+            k.ps.setString(4, phoneNumber);
+            k.ps.setString(5, email);
+            k.ps.setString(6, address);
+            k.ps.setString(7, imageUrl);
+            k.ps.setString(8, memberId);
+
+            // Eksekusi query
+            int rowsAffected = k.ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(this, "Data member berhasil diperbarui!");
+
+                // Kembali ke halaman detail
+                memberDetail_petugas detail = new memberDetail_petugas(memberId);
+                detail.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Gagal memperbarui data member!");
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
         }
-
-        // Ambil data dari form
-        String memberId = jTextField1.getText();
-        String name = jTextField2.getText();
-        String gender = jRadioButton1.isSelected() ? "Male" : "Female";
-        java.util.Date utilDate = jDateChooser1.getDate();
-        java.sql.Date dateOfBirth = new java.sql.Date(utilDate.getTime());
-        String phoneNumber = jTextField3.getText();
-        String email = jTextField4.getText();
-        String address = jTextArea1.getText();
-        String imageUrl = jTextField5.getText();
-
-        // Buat query update
-        k.setDriver();
-        k.query = "UPDATE members SET "
-                + "name = ?, "
-                + "gender = ?, "
-                + "date_of_birth = ?, "
-                + "phone_number = ?, "
-                + "email = ?, "
-                + "address = ?, "
-                + "image_url = ? "
-                + "WHERE member_id = ?";
-        k.CUD();
-        
-        k.ps.setString(1, name);
-        k.ps.setString(2, gender);
-        k.ps.setDate(3, dateOfBirth);
-        k.ps.setString(4, phoneNumber);
-        k.ps.setString(5, email);
-        k.ps.setString(6, address);
-        k.ps.setString(7, imageUrl);
-        k.ps.setString(8, memberId);
-
-        // Eksekusi query
-        int rowsAffected = k.ps.executeUpdate();
-        
-        if (rowsAffected > 0) {
-            JOptionPane.showMessageDialog(this, "Data member berhasil diperbarui!");
-            
-            // Kembali ke halaman detail
-            memberDetail_petugas detail = new memberDetail_petugas(memberId);
-            detail.setVisible(true);
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Gagal memperbarui data member!");
-        }
-        
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
-    }
     }
     
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
